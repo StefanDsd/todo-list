@@ -25,9 +25,24 @@ export default function App() {
     setTodo((prevState) => ({ ...prevState, description: "" }));
   };
 
-  const removeTodo = (e: any) => {
-    setTodos([...todos].filter((s: any) => s.id !== e.id));
+  
+
+  const removeTodo = (e) => {
+    setTodos([...todos].filter((s) => s.id !== e.id));
   };
+  
+  const markAsDone = (e) => {
+    setTodos(
+      [...todos].map((s) => {
+        if (s.id === e.id) {
+          s.isDone = !s.isDone;
+        }
+        return s;
+      })
+    );
+  };
+
+  
  
   let tableHeaders = Object.keys(todo);
   tableHeaders.push("remove");
@@ -52,8 +67,8 @@ export default function App() {
             <tr>
               <td> {e.id.split("-")[0]} </td>
               <td> {e.description} </td>
-              <td> {e.is_done ? "completed" : "not complete"} </td>
-              <td onCLick={() => removeTodo(e)}   > x </td>
+              <td onClick={() => markAsDone(e)}>{e.isDone ? "done" : "not done"}</td>
+              <td onClick={() => removeTodo(e)}> x </td>
             </tr>
           ))}
         </tbody>
