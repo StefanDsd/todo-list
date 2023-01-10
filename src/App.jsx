@@ -24,6 +24,10 @@ export default function App() {
     setTodos([...todos, todo]);
     setTodo((prevState) => ({ ...prevState, description: "" }));
   };
+
+  const removeTodo = (e: any) => {
+    setTodos([...todos].filter((s: any) => s.id !== e.id));
+  };
  
   let tableHeaders = Object.keys(todo);
   tableHeaders.push("remove");
@@ -49,7 +53,7 @@ export default function App() {
               <td> {e.id.split("-")[0]} </td>
               <td> {e.description} </td>
               <td> {e.is_done ? "completed" : "not complete"} </td>
-              <td onCLick={() => console.log("test")}> x </td>
+              <td onCLick={() => removeTodo(e)}   > x </td>
             </tr>
           ))}
         </tbody>
