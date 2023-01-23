@@ -7,7 +7,7 @@ export default function App() {
   const [todo, setTodo] = useState({
     id: "",
     description: "",
-    is_done: false
+    is_done: false,
   });
 
   const [todos, setTodos] = useState([]);
@@ -16,21 +16,23 @@ export default function App() {
     setTodo((prevState) => ({
       ...prevState,
       id: id,
-      description: e.target.value
+      description: e.target.value,
     }));
   };
 
   const handleTodoSubmit = () => {
-    setTodos([...todos, todo]);
-    setTodo((prevState) => ({ ...prevState, description: "" }));
+    if (todo.description.length) {
+      setTodos([...todos, todo]);
+      setTodo((prevState) => ({ ...prevState, description: "" }));
+    } else {
+      alert("Please enter a description")
+    }
   };
-
-  
 
   const removeTodo = (e) => {
     setTodos([...todos].filter((s) => s.id !== e.id));
   };
-  
+
   const markAsDone = (e) => {
     setTodos(
       [...todos].map((s) => {
@@ -42,8 +44,6 @@ export default function App() {
     );
   };
 
-  
- 
   let tableHeaders = Object.keys(todo);
   tableHeaders.push("remove");
 
@@ -56,7 +56,7 @@ export default function App() {
       </form>
       <table>
         <thead>
-        <tr>
+          <tr>
             {tableHeaders.map((e, i) => (
               <th key={i}> {e} </th>
             ))}
@@ -67,7 +67,9 @@ export default function App() {
             <tr>
               <td> {e.id.split("-")[0]} </td>
               <td> {e.description} </td>
-              <td onClick={() => markAsDone(e)}>{e.isDone ? "done" : "not done"}</td>
+              <td onClick={() => markAsDone(e)}>
+                {e.isDone ? "done" : "not done"}
+              </td>
               <td onClick={() => removeTodo(e)}> x </td>
             </tr>
           ))}
